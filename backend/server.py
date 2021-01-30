@@ -6,6 +6,7 @@
 import sqlite3
 from flask import Flask, request, session
 from dotenv import load_dotenv
+from scrapr import RedditScrapr
 app = Flask(__name__)
 load_dotenv()
 
@@ -20,8 +21,15 @@ usersTable = ''' CREATE TABLE IF NOT EXISTS USERS(
     EMAIL TEXT NOT NULL,
     PRIMARY KEY(EMAIL)
 )'''
+configsTable = ''' CREATE TABLE IF NOT EXISTS CONFIGS(
+    EMAIL TEXT NOT NULL, 
+    CONFIG_NAME TEXT NOT NULL,
+    CONFIG_PATH TEXT NOT NULL,
+    PRIMARY KEY(CONFIG_PATH)
+)'''
 userCursor = userConn.cursor()
 userCursor.execute(usersTable)
+userCursor.execute(configsTable)
 userConn.commit()
 userConn.close()
 
@@ -53,6 +61,7 @@ def register():
         try:
             registerCursor.execute("INSERT INTO USERS (username, email, password) VALUES(?,?,?)", [username, email, password])
         except:
+            registerConn.close()
             return {"status": 400}, 400
         registerConn.commit()
         registerConn.close()
@@ -87,5 +96,33 @@ def login():
 @app.route('/logout', methods=['POST'])
 def logout():
  return 0
+
+#Create config
+@app.route('/createConfig', methods=['POST'])
+def createConfig():
+    request_data = request.get_json()
+
+    email = None
+    config_name = None
+    config_path = None
+
+    if request_data:
+        if 'email' in request_data:
+            email = request_data['email']
+        if 'config_name' in request_data:
+            config_name = request_data['config_name']
+        if 'config_path' in request_data:
+            config_path = request_data['config_path']
+
+        configConn = sqlite3.connect('users.db')
+        configCursor = configConn.cursor()
+        try:
+            configCursor.execute("INSERT INTO CONFIGS (EMAIL, CONFIG_NAME CONFIG_PATH) VALUES(?,?,?)", [email, config_name, config_path])
+        except:
+            configConn.close()
+            return {"status": 400}, 400
+        configConn.commit()
+        configConn.close()
+    return {"status": 200}, 200
 
 app.run(debug=True, host='0.0.0.0')
