@@ -4,9 +4,13 @@
 #   Kyle Poirier-Szekely
 
 import sqlite3
-from flask import Flask
-from flask import request
+from flask import Flask, request, session
+from dotenv import load_dotenv
 app = Flask(__name__)
+load_dotenv()
+
+import os
+app.secret_key = os.environ.get("secret")
 
 #Create users table
 userConn = sqlite3.connect('users.db')
@@ -52,16 +56,15 @@ def register():
             return {"status": 400}, 400
         registerConn.commit()
         registerConn.close()
+        session['username'] = username
+        session['loggedIn'] = True
     return {"status": 200}, 200
-
 
 #Login user
 @app.route('/login', methods=['POST'])
 def login():
     request_data = request.get_json()
-
     status = 401
-    
     email = None
     password = None
 
@@ -73,15 +76,12 @@ def login():
 
     loginConn = sqlite3.connect('users.db')
     loginCursor = loginConn.cursor()
-
     loginCursor.execute("SELECT * FROM USERS WHERE email = ? AND password = ?", [email, password])
 
     if loginCursor.fetchone():
         status = 200
 
     return {"status": status, "data": {}}, status
-
-
 
 #Logout user
 @app.route('/logout', methods=['POST'])
