@@ -9,7 +9,7 @@ export default function Copyright() {
             <Typography variant="body2" color="textSecondary" align="center">
                 {'Copyright © '}
                 <Link color="inherit" href="https://github.com/NAEK2K/monke-scrapr">
-                    monkeScrapr
+                    Monke Scrapr
                 </Link>{' '}
                 {new Date().getFullYear()}
                 {'.'}
