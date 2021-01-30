@@ -43,7 +43,7 @@ def register():
             email = request_data['email']
         if 'password' in request_data:
             password = request_data['password']
-        
+
         registerConn = sqlite3.connect('users.db')
         registerCursor = registerConn.cursor()
         registerCursor.execute("INSERT INTO USERS (username, email, password) VALUES(?,?,?)", [username, email, password])
@@ -51,9 +51,27 @@ def register():
         registerConn.close()
     return {}, 200
 
+
 #Login user
+@app.route('/login', methods=['POST'])
+def login():
+    request_data = request.get_json()
+    
+    validUser = False
+    validPass = False
+
+    if request_data:
+        if 'email' in request_data:
+            validUser = True
+        if 'password' in request_data:
+            validPass = True
+    return "validUser: {} validPass {}".format(validUser, validPass)
+
+
 
 #Logout user
-
+@app.route('/logout', methods=['POST'])
+def logout():
+ return 0
 
 app.run(debug=True, host='0.0.0.0')
