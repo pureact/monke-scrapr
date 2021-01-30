@@ -2,7 +2,7 @@
 
 Monke Scrapr is a hackathon project being developed for cuHacking 2021: Snowed In. 
 
-Our team name is Team Monke:
+We are Team Monke:
 
 - Nicolas El-Khoury // [naek.ca](https://naek.ca)
 - Matthew O'Neill // [matthewoneill.ca](https://matthewoneill.ca)
