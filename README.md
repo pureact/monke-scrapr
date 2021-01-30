@@ -29,7 +29,7 @@ Our team name is Team Monke:
 
 ```json
 {
-    "client_id": "s_bJdbsb3VMmzQ",
+    "client_id": "client_id",
     "client_secret": "client_secret",
     "user_agent": "reddit scrapr by u/username"
 }
