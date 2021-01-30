@@ -13,8 +13,8 @@ load_dotenv()
 import os
 app.secret_key = os.environ.get("secret")
 
-#Create users table
-userConn = sqlite3.connect('users.db')
+#Create tables
+tableConn = sqlite3.connect('users.db')
 usersTable = ''' CREATE TABLE IF NOT EXISTS USERS(
     USERNAME TEXT NOT NULL, 
     PASSWORD TEXT NOT NULL,
@@ -27,11 +27,20 @@ configsTable = ''' CREATE TABLE IF NOT EXISTS CONFIGS(
     CONFIG_PATH TEXT NOT NULL,
     PRIMARY KEY(CONFIG_PATH)
 )'''
-userCursor = userConn.cursor()
-userCursor.execute(usersTable)
-userCursor.execute(configsTable)
-userConn.commit()
-userConn.close()
+prawConfigsTable = ''' CREATE TABLE IF NOT EXISTS PRAWS(
+    CLIENT_ID TEXT NOT NULL,
+    CLIENT_SECRET TEXT NOT NULL,
+    USER_AGENT TEXT NOT NULL,
+    EMAIL TEXT NOT NULL,
+    CONFIG_NAME TEXT NOT NULL,
+    PRIMARY KEY(CONFIG_NAME, EMAIL)
+)'''
+tableCursor = tableConn.cursor()
+tableCursor.execute(usersTable)
+tableCursor.execute(configsTable)
+tableCursor.execute(prawConfigsTable)
+tableConn.commit()
+tableConn.close()
 
 #Default landing page
 @app.route('/')
