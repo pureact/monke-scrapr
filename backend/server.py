@@ -4,9 +4,12 @@
 #   Kyle Poirier-Szekely
 
 import sqlite3
+from dynaport.dynaport import Dynaport
 from flask import Flask, request, session
 from dotenv import load_dotenv
-from scrapr import RedditScrapr
+from util import generate_config
+scrapr = Dynaport().get_module(name="scrapr", path="../scrapr.py")
+scrapr.RedditScrapr()
 app = Flask(__name__)
 load_dotenv()
 
@@ -110,17 +113,14 @@ def logout():
 def createConfig():
     request_data = request.get_json()
 
-    email = None
+    email = session["email"]
     config_name = None
-    config_path = None
-
     if request_data:
-        if 'email' in request_data:
-            email = request_data['email']
-        if 'config_name' in request_data:
-            config_name = request_data['config_name']
-        if 'config_path' in request_data:
-            config_path = request_data['config_path']
+        if 'configName' in request_data:
+            config_name = request_data['configName']
+
+        params = {"scrapr_type":"reddit", "limit":request_data.get("numPosts"), "subreddit":request_data.get("subreddit"), "sorting":request_data.get("sorting") , "keywords":request_data.get("keywords"), "tracked_users":request_data.get("trackedUsers")}
+        config_path = generate_config(config_name, "configs", **params)
 
         configConn = sqlite3.connect('users.db')
         configCursor = configConn.cursor()
