@@ -8,4 +8,4 @@ Our team name is Team Monke:
 - Matthew O'Neill // [matthewoneill.ca](https://matthewoneill.ca)
 - Hayden John William Mirza // [hjwm.ca](https://hjwm.ca)
 - Adrian Alexander // [adrian-alexander.ca](https://adrian-alexander.ca/)
-- Kyle is not here
+- Kyle // [github.com/kylepoirier](https://github.com/kylepoirier)
