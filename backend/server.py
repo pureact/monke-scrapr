@@ -6,26 +6,27 @@
 import sqlite3
 from flask import Flask
 from flask import request
-
-userConn = sqlite3.connect('users.db')
 app = Flask(__name__)
 
 #Create users table
+userConn = sqlite3.connect('users.db')
 usersTable = ''' CREATE TABLE IF NOT EXISTS USERS(
     USERNAME TEXT NOT NULL, 
     PASSWORD TEXT NOT NULL,
     EMAIL TEXT NOT NULL,
-    PRIMARY KEY(EMAIL, PASSWORD)
+    PRIMARY KEY(EMAIL)
 )'''
 userCursor = userConn.cursor()
 userCursor.execute(usersTable)
 userConn.commit()
+userConn.close()
 
 #Default landing page
 @app.route('/')
 def index():
     return 'Hello world'
 
+#TODO: Proper authentication. Only pushes data to database for now
 #Register user
 @app.route('/register', methods=['POST'])
 def register():
@@ -42,8 +43,13 @@ def register():
             email = request_data['email']
         if 'password' in request_data:
             password = request_data['password']
-    return '''
-           username: {} email: {} password: {}'''.format(username, email, password)
+        
+        registerConn = sqlite3.connect('users.db')
+        registerCursor = registerConn.cursor()
+        registerCursor.execute("INSERT INTO USERS (username, email, password) VALUES(?,?,?)", [username, email, password])
+        registerConn.commit()
+        registerConn.close()
+    return {}, 200
 
 #Login user
 
