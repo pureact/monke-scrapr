@@ -10,6 +10,7 @@ flask = "*"
 python-dotenv = "*"
 jedi = "*"
 dynaport = "*"
+praw = "*"
 
 [requires]
 python_version = "3.8"

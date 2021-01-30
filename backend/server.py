@@ -114,6 +114,7 @@ def createConfig():
     request_data = request.get_json()
 
     email = session["email"]
+    
     config_name = None
     if request_data:
         if 'configName' in request_data:
@@ -125,7 +126,7 @@ def createConfig():
         configConn = sqlite3.connect('users.db')
         configCursor = configConn.cursor()
         try:
-            configCursor.execute("INSERT INTO CONFIGS (EMAIL, CONFIG_NAME CONFIG_PATH) VALUES(?,?,?)", [email, config_name, config_path])
+            configCursor.execute("INSERT INTO CONFIGS (EMAIL, CONFIG_NAME, CONFIG_PATH) VALUES(?,?,?)", [email, config_name, config_path])
         except:
             configConn.close()
             return {"status": 400}, 400
