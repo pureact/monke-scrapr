@@ -84,6 +84,17 @@ export default function CreateReddit() {
                             margin="normal"
                             required
                             fullWidth
+                            id="dbName"
+                            label="Database Name"
+                            name="dbName"
+                            autoComplete="dbName"
+                            autoFocus
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
                             id="subreddit"
                             label="Subreddit"
                             name="subreddit"

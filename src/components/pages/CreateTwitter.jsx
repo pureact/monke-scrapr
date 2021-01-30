@@ -73,6 +73,17 @@ export default function CreateTwitter() {
                             margin="normal"
                             required
                             fullWidth
+                            id="dbName"
+                            label="Database Name"
+                            name="dbName"
+                            autoComplete="dbName"
+                            autoFocus
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
                             id="feed"
                             label="Feed"
                             name="feed"
