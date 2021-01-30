@@ -97,4 +97,9 @@ def logout():
     else:
         return {"status": 400, "Error": "User not logged in."}, 400
 
+@app.route('runRedditScraper', methods=['POST'])
+def runRedditScraper():
+    return 0
+
+
 app.run(debug=True, host='0.0.0.0')
