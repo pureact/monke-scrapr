@@ -1,7 +1,7 @@
 #Backend API and routing for monkeScrapr
 #By:
 #   Hayden Mirza
-#   Kyle SP
+#   Kyle Poirier-Szekely
 
 import sqlite3
 from flask import Flask
@@ -56,16 +56,27 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
     request_data = request.get_json()
+
+    status = 401
     
-    validUser = False
-    validPass = False
+    email = None
+    password = None
 
     if request_data:
         if 'email' in request_data:
-            validUser = True
+            email = request_data['email']
         if 'password' in request_data:
-            validPass = True
-    return "validUser: {} validPass {}".format(validUser, validPass)
+            password = request_data['password']
+
+    loginConn = sqlite3.connect('users.db')
+    loginCursor = loginConn.cursor()
+
+    loginCursor.execute("SELECT * FROM USERS WHERE email = ? AND password = ?", [email, password])
+
+    if loginCursor.fetchone():
+        status = 200
+
+    return {"status": status, "data": {}}, status
 
 
 
