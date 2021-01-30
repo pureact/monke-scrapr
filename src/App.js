@@ -1,12 +1,10 @@
 import './App.css';
-import React from 'react';
-import CreateReddit from './components/pages/CreateReddit';
-import CreateTwitter from './components/pages/CreateTwitter';
-import CreateWebsite from './components/pages/CreateWebsite';
+import Dashboard from './components/Dashboard';
+
 function App() {
   return (
     <div className="App">
-      <CreateTwitter />
+      <Dashboard></Dashboard>
     </div>
   );
 }
