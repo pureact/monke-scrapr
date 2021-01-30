@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 praw = "*"
+jedi = "*"
 
 [dev-packages]
 black = "*"
