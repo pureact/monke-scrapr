@@ -91,7 +91,7 @@ def login():
 @app.route('/logout', methods=['POST'])
 def logout():
     if 'loggedIn' in session and session['loggedIn']:
-        session.pop('username', None)
+        session.pop('email', None)
         session.pop('loggedIn', None)
         return {"status": 200}, 200
     else:
