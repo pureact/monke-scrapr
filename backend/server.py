@@ -53,6 +53,7 @@ def register():
         try:
             registerCursor.execute("INSERT INTO USERS (username, email, password) VALUES(?,?,?)", [username, email, password])
         except:
+            registerConn.close()
             return {"status": 400}, 400
         registerConn.commit()
         registerConn.close()
@@ -83,6 +84,7 @@ def login():
         session['email'] = email
         session['loggedIn'] = True
 
+    loginConn.close()
     return {"status": status}, status
 
 #Logout user
