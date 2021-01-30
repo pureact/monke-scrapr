@@ -53,10 +53,11 @@ def register():
         try:
             registerCursor.execute("INSERT INTO USERS (username, email, password) VALUES(?,?,?)", [username, email, password])
         except:
+            registerConn.close()
             return {"status": 400}, 400
         registerConn.commit()
         registerConn.close()
-        session['username'] = username
+        session['email'] = email
         session['loggedIn'] = True
     return {"status": 200}, 200
 
@@ -80,12 +81,20 @@ def login():
 
     if loginCursor.fetchone():
         status = 200
+        session['email'] = email
+        session['loggedIn'] = True
 
-    return {"status": status, "data": {}}, status
+    loginConn.close()
+    return {"status": status}, status
 
 #Logout user
 @app.route('/logout', methods=['POST'])
 def logout():
- return 0
+    if 'loggedIn' in session and session['loggedIn']:
+        session.pop('username', None)
+        session.pop('loggedIn', None)
+        return {"status": 200}, 200
+    else:
+        return {"status": 400, "Error": "User not logged in."}, 400
 
 app.run(debug=True, host='0.0.0.0')
