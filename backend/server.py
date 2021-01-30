@@ -5,6 +5,7 @@
 
 import sqlite3
 from flask import Flask
+from flask import request
 
 userConn = sqlite3.connect('users.db')
 app = Flask(__name__)
@@ -26,6 +27,23 @@ def index():
     return 'Hello world'
 
 #Register user
+@app.route('/register', methods=['POST'])
+def register():
+    request_data = request.get_json()
+
+    username = None
+    email = None
+    password = None
+
+    if request_data:
+        if 'username' in request_data:
+            username = request_data['username']
+        if 'email' in request_data:
+            email = request_data['email']
+        if 'password' in request_data:
+            password = request_data['password']
+    return '''
+           username: {} email: {} password: {}'''.format(username, email, password)
 
 #Login user
 
