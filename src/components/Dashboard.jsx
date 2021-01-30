@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -48,8 +48,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function getConfigs(){
+    //get request for configs from user
+    return [{ title: "T", links: 12, enabled: false }];
+}
+
 export default function Dashboard() {
   const classes = useStyles();
+
+  const [configs, setConfigs] = useState([]);
+
+  const resetConfigs = () => {
+      setConfigs(oldArray => [getConfigs()]);
+  };
   
 
   return (
@@ -62,8 +73,6 @@ export default function Dashboard() {
             Monke Scrapr
           </Typography>
 
-
-        
           <Button className={classes.appBarButtons}>Login</Button>
         </Toolbar>
       </AppBar>
@@ -73,15 +82,11 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Generate cards based on all configs */}
-            <Grid item xs={3} md={3} lg={4}>
-              <Paper elevation={5} className={classes.paper}>
-                Test
-              </Paper>
+            <Grid container spacing={3}>
+                {configs.map(item =>{
+                    return <Grid item xs={3} md={3} lg={4}><Paper elevation={5} className={classes.paper}>Data</Paper></Grid>
+                })}
             </Grid>
-            
-          </Grid>
         </Container>
       </main>
     </div>
