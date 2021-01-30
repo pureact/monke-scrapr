@@ -46,10 +46,13 @@ def register():
 
         registerConn = sqlite3.connect('users.db')
         registerCursor = registerConn.cursor()
-        registerCursor.execute("INSERT INTO USERS (username, email, password) VALUES(?,?,?)", [username, email, password])
+        try:
+            registerCursor.execute("INSERT INTO USERS (username, email, password) VALUES(?,?,?)", [username, email, password])
+        except:
+            return {"status": 400}, 400
         registerConn.commit()
         registerConn.close()
-    return {}, 200
+    return {"status": 200}, 200
 
 
 #Login user
