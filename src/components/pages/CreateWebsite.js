@@ -4,8 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Copyright from '../Copyright';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Navbar from '../Navbar';
 
 const drawerWidth = 240;
-const color = "#FF5700";
+const color = "#808080";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -40,15 +38,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateReddit() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     const classes = useStyles();
     return (
@@ -57,7 +46,7 @@ export default function CreateReddit() {
             <AppBar position="static" className={classes.appBar}>
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        Create Reddit Config
+                        Create Website Config
                         </Typography>
                 </Toolbar>
             </AppBar>
@@ -84,31 +73,10 @@ export default function CreateReddit() {
                             margin="normal"
                             required
                             fullWidth
-                            id="subreddit"
-                            label="Subreddit"
-                            name="subreddit"
-                            autoComplete="subreddit"
-                            autoFocus
-                        />
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="numPost"
-                            label="Number of posts to search"
-                            name="numPost"
-                            autoComplete="Number of posts to search"
-                            autoFocus
-                        />
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
-                            id="trackedUsers"
-                            label="Tracked Users"
-                            name="trackedUsers"
-                            autoComplete="trackedUsers"
+                            id="website"
+                            label="Website Link"
+                            name="website"
+                            autoComplete="website"
                             autoFocus
                         />
                         <TextField
@@ -122,20 +90,6 @@ export default function CreateReddit() {
                             autoComplete="keywords"
                             autoFocus
                         />
-                        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>Choose a filter</Button>
-                        <Menu
-                            id="filterMenu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onclick={handleClose} id="hot">hot</MenuItem>
-                            <MenuItem onclick={handleClose} id="new">new</MenuItem>
-                            <MenuItem onclick={handleClose} id="rising">rising</MenuItem>
-                            <MenuItem onclick={handleClose} id="controversial">controversial</MenuItem>
-                            <MenuItem onclick={handleClose} id="top">top</MenuItem>
-                        </Menu>
                         <Button
                             type="submit"
                             fullWidth
