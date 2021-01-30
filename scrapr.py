@@ -41,23 +41,44 @@ class RedditScrapr(Scrapr):
             conn = super().get_db()
             c = conn.cursor()
             c.execute(
-                "CREATE TABLE IF NOT EXISTS reddit_scrapr (permalink text PRIMARY KEY, title text, selftext text, author text, keywords text);"
+                "CREATE TABLE IF NOT EXISTS scrapr (permalink text PRIMARY KEY, title text, selftext text, author text, keywords text)"
             )
             conn.commit()
+            conn.close()
+
+    def get_all_links(self):
+        conn = self.get_db()
+        c = conn.cursor()
+        c.execute("SELECT * FROM scrapr")
+        rows = c.fetchall()
+        conn.close()
+
+        rows_formatted = []
+        for row in rows:
+            rows_formatted.append(
+                {
+                    "permalink": row[0],
+                    "title": row[1],
+                    "selftext": row[2],
+                    "author": row[3],
+                    "keywords": row[4],
+                }
+            )
+
+        return rows_formatted
 
     def insert_submission(self, permalink, title, selftext, author, keywords):
         conn = super().get_db()
         c = conn.cursor()
-        c.execute(
-            "SELECT permalink FROM reddit_scrapr WHERE permalink = ?", [permalink]
-        )
+        c.execute("SELECT permalink FROM scrapr WHERE permalink = ?", [permalink])
         if c.fetchone():
             return False
         c.execute(
-            "INSERT INTO reddit_scrapr (permalink, title, selftext, author, keywords) VALUES (?,?,?,?,?)",
+            "INSERT INTO scrapr (permalink, title, selftext, author, keywords) VALUES (?,?,?,?,?)",
             [permalink, title, selftext, author, keywords],
         )
         conn.commit()
+        conn.close()
 
     def scrape_submission(self, submission):
         title = submission.title
@@ -132,3 +153,4 @@ class RedditScrapr(Scrapr):
 if __name__ == "__main__":
     scrapr = RedditScrapr("config.json", "praw_config.json")
     scrapr.scrape()
+    print(scrapr.get_all_links())
