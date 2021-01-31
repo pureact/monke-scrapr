@@ -171,9 +171,9 @@ export default function CreateReddit() {
                             Create config
                     </Button>
                     </form>
-                </div>
                 <Copyright />
-            </Container>
+                </Container>
+                </main>
         </div>
     )
 }
