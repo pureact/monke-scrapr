@@ -195,4 +195,17 @@ def createPrawConfig():
         configConn.close()
     return {"status": 200}, 200
 
+@app.route("/getPrawConfigs", methods=["GET"])
+def getPrawConfigs():
+    prawConn = sqlite3.connect('users.db')
+    prawCursor = prawConn.cursor()
+    email = session["email"]
+    prawCursor.execute("SELECT CONFIG_NAME FROM PRAWS WHERE EMAIL = ?", [email])
+    praws = prawCursor.fetchall()
+    prawList = []
+
+    for praw in praws:
+        prawList.append(praw[0])
+    return {"data": {"praws": prawList}, "status": 200}
+
 app.run(debug=True, host='0.0.0.0')
