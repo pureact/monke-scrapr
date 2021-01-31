@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Redirect} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -51,6 +52,11 @@ export default function SignIn() {
 
   const handleSubmit = () => {
     axios.post(url + '/login', credentials);
+
+    const response = axios.get(url + '/login');
+    if (response.status === '200') {
+      return <Redirect to="/home"/>
+    }
   }
 
   return (
@@ -101,7 +107,6 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            href="/dashboard"
           >
             Sign In
           </Button>
