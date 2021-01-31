@@ -74,7 +74,6 @@ export default function Dashboard() {
           </Typography>
           <Button className={classes.appBarButtons}>Login</Button>
           <Button className={classes.appBarButtons}>Logout</Button>
-
         </Toolbar>
       </AppBar>
 
@@ -88,9 +87,7 @@ export default function Dashboard() {
                     return <Grid item xs={3} md={3} lg={4}><Paper elevation={5} className={classes.paper}>Data</Paper></Grid>
                 })}
             </Grid>           
-          </Grid>
           <Copyright/>
-
         </Container>
       </main>
     </div>
