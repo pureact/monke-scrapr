@@ -9,7 +9,6 @@ from flask import Flask, request, session
 from dotenv import load_dotenv
 from util import generate_config
 scrapr = Dynaport().get_module(name="scrapr", path="../scrapr.py")
-scrapr.RedditScrapr()
 app = Flask(__name__)
 load_dotenv()
 
@@ -36,8 +35,10 @@ prawConfigsTable = ''' CREATE TABLE IF NOT EXISTS PRAWS(
     USER_AGENT TEXT NOT NULL,
     EMAIL TEXT NOT NULL,
     CONFIG_NAME TEXT NOT NULL,
+    CONFIG_PATH TEXT NOT NULL,
     PRIMARY KEY(CONFIG_NAME, EMAIL)
 )'''
+
 tableCursor = tableConn.cursor()
 tableCursor.execute(usersTable)
 tableCursor.execute(configsTable)
@@ -117,9 +118,24 @@ def logout():
     else:
         return {"status": 400, "Error": "User not logged in."}, 400
 
-@app.route('runRedditScraper', methods=['POST'])
+@app.route('/runRedditScraper', methods=['POST'])
 def runRedditScraper():
-    return 0
+    request_data = request.get_json()
+
+    #prawconfig, scraperconfig
+    prawConfig = None
+    scraperConfig = None
+
+    if request_data:
+        if 'prawConfig' in request_data:
+            prawConfig = request_data['prawConfig']
+        if 'scraperConfig' in request_data:
+            scraperConfig = request_data['scraperConfig']
+        redditScrapr = scrapr.RedditScrapr(scraperConfig, prawConfig)
+        redditScrapr.scrape()
+        return {"status": 200}, 200
+    else:
+        return {"status": 400}, 400
 
 #Create config
 @app.route('/createConfig', methods=['POST'])
@@ -138,7 +154,7 @@ def createConfig():
         configConn = sqlite3.connect('users.db')
         configCursor = configConn.cursor()
         try:
-            configCursor.execute("INSERT INTO CONFIGS (EMAIL, CONFIG_NAME CONFIG_PATH) VALUES(?,?,?)", [email, config_name, config_path])
+            configCursor.execute("INSERT INTO CONFIGS (EMAIL, CONFIG_NAME, CONFIG_PATH) VALUES(?,?,?)", [email, config_name, config_path])
         except:
             configConn.close()
             return {"status": 400}, 400
