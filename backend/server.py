@@ -143,6 +143,7 @@ def createConfig():
     request_data = request.get_json()
 
     email = session["email"]
+    
     config_name = None
     if request_data:
         if 'configName' in request_data:
@@ -159,6 +160,38 @@ def createConfig():
             configConn.close()
             return {"status": 400}, 400
         configConn.commit()
+        configConn.close()
+    return {"status": 200}, 200
+
+# Create config
+@app.route("/createPrawConfig", methods=["POST"])
+def createConfig():
+    request_data = request.get_json()
+
+    email = session["email"]
+    config_name = None
+    if request_data:
+        if "configName" in request_data:
+            config_name = request_data["configName"]
+
+        params = {
+            "client_id": request_data.get("clientId"),
+            "client_secret": request_data.get("clientSecret"),
+            "user_agent": request_data.get("userAgent"),
+        }
+        config_path = generate_config(config_name, "configs", **params)
+
+        configConn = sqlite3.connect("users.db")
+        configCursor = configConn.cursor()
+        try:
+            configCursor.execute(
+                "INSERT INTO PRAWS (EMAIL, CLIENT_ID, USER_AGENT, CLIENT_SECRET, CONFIG_NAME, CONFIG_PATH) VALUES(?,?,?,?,?)",
+                [email, request_data.get("clientId"), request_data.get("userAgent"), request_data.get("clientSecret"), config_name, config_path],
+            )
+        except:
+            configConn.close()
+            return {"status": 400}, 400
+        configConn.commit() }
         configConn.close()
     return {"status": 200}, 200
 
