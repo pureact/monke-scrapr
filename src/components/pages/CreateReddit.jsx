@@ -18,21 +18,12 @@ const drawerWidth = 240;
 const color = "#FF5700";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    },
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
-    content: {
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
-    },
-    appBarSpacer: theme.mixins.toolbar,
     appBar: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
@@ -56,37 +47,37 @@ export default function CreateReddit() {
     const [subreddit, setSubreddit] = useState("");
     const [numPosts, setNumPosts] = useState(0);
     const [sorting, setSorting] = useState("");
-    const [keywords, setKeywords] = useState([]);
-    const [trackedUsers, setTrackedUsers] = useState([]);
+    const [keywords, setKeywords] = useState("");
+    const [trackedUsers, setTrackedUsers] = useState("");
 
     const handleSubmit = () =>{
         console.log(configName,subreddit,numPosts,sorting,keywords,trackedUsers);
-        console.log("test");
         console.log(configName,subreddit,numPosts,sorting,keywords.split(),trackedUsers.split());
         
         setKeywords(keywords.split(" "));
         setTrackedUsers(trackedUsers.split(" "));
 
-        axios.post("localhost:5000/create/createConfig",configName,subreddit,numPosts,sorting,keywords,trackedUsers);
+        axios.post("http://127.0.0.1:5000/reddit/createConfig",{"configName": configName,"subreddit": subreddit,"numPosts": numPosts, "sorting": sorting, "keywords": keywords,"trackedUsers": trackedUsers});
     }
 
     const classes = useStyles();
     return (
-        <div className={classes.root}>
-            <CssBaseline />
-
-            <AppBar position="fixed" className={classes.appBar}>
+        <div>
+            <Navbar />
+            <AppBar position="static" className={classes.appBar}>
                 <Toolbar>
-                    <Typography variant="h6" noWrap>
+                    <Typography variant="h6" className={classes.title}>
                         Create Reddit Config
-                    </Typography>
+                        </Typography>
                 </Toolbar>
             </AppBar>
-            <Navbar />
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                <Container maxWidth="xs" className={classes.container}>
-                <form className={classes.form} noValidate>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <AppBar position="static">
+                    </AppBar>
+
+                    <form className="classes.form" noValidate>
                         <TextField
                             value={configName}
                             onInput={ e=>setConfigName(e.target.value)}
@@ -174,6 +165,7 @@ export default function CreateReddit() {
                 </div>
                 <Copyright />
             </Container>
+            
         </div>
     )
 }

@@ -171,6 +171,7 @@ def runRedditScraper():
 @app.route("/reddit/createConfig", methods=["POST"])
 def createConfig():
     request_data = request.get_json()
+    print(request_data)
 
     email = session["email"]
 
@@ -307,5 +308,4 @@ def getPrawConfigs():
     return {"data": {"praws": prawList}, "status": 200}
 
 
-app.run(debug=True, host="0.0.0.0")
-
+app.run(debug=True)

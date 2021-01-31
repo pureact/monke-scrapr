@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const url = "localhost:3000";
+const url = "http://127.0.0.1:5000";
 
 export default function SignIn() {
   const classes = useStyles();
@@ -51,9 +51,8 @@ export default function SignIn() {
   }
 
   const handleSubmit = () => {
-    axios.post(url + '/login', credentials);
 
-    const response = axios.get(url + '/login');
+    const response = axios.post(url + '/login', credentials);
     if (response.status === '200') {
       return <Redirect to="/home"/>
     }
