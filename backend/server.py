@@ -271,5 +271,17 @@ def redditLinks():
 
     
     
+@app.route("/reddit/getPrawConfigs", methods=["GET"])
+def getPrawConfigs():
+    prawConn = sqlite3.connect('users.db')
+    prawCursor = prawConn.cursor()
+    email = session["email"]
+    prawCursor.execute("SELECT CONFIG_NAME FROM PRAWS WHERE EMAIL = ?", [email])
+    praws = prawCursor.fetchall()
+    prawList = []
 
-app.run(debug=True, host="0.0.0.0")
+    for praw in praws:
+        prawList.append(praw[0])
+    return {"data": {"praws": prawList}, "status": 200}
+
+app.run(debug=True, host='0.0.0.0')
