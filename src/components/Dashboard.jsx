@@ -57,7 +57,7 @@ function getConfigs(){
 export default function Dashboard() {
   const classes = useStyles();
 
-  const [configs, setConfigs] = useState([]);
+  const [configs, setConfigs] = useState([{ title: "T", links: 12, enabled: false }]);
 
   const resetConfigs = () => {
       setConfigs(oldArray => [getConfigs()]);
