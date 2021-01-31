@@ -22,10 +22,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: drawerWidth,
     background: "#49392C"
   },
-  
-
   appBarButtons: {
       marginLeft: 'auto',
+      color: '#FFFFFF'
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -62,10 +61,7 @@ export default function Dashboard() {
           <Typography variant="h6" noWrap>
             Monke Scrapr
           </Typography>
-
-
-        
-          <Button className={classes.appBarButtons}>Login</Button>
+          <Button className={classes.appBarButtons}>Logout</Button>
         </Toolbar>
       </AppBar>
 
