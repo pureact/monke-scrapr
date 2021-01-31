@@ -244,5 +244,46 @@ def createPrawConfig():
         configConn.close()
     return {"status": 200}, 200
 
+# Get reddit all links
+@app.route('/reddit/links', methods=['POST'])
+def redditLinks():
+    request_data = request.get_json()
+    
+    config_name = None
+    config_path = None
+    email = session['email']
 
-app.run(debug=True, host="0.0.0.0")
+    if request_data:
+        if "configName" in request_data:
+            config_name = request_data["configName"]
+    configConn = sqlite3.connect("users.db")
+    configCursor = configConn.cursor()
+
+    try:
+        configCursor.execute("SELECT CONFIG_PATH FROM USERS WHERE email = ? AND CONFIG_NAME = ?", [email, config_name])
+        config_path = configCursor.fetchone()
+    except:
+        configConn.close()
+        return {"status": 400}, 400
+    
+    configConn.commit()
+    configConn.close()
+        
+    return {"status": 200, "data": {"links": scrapr.RedditScrapr(config_path).get_all_links()}}, 200
+
+    
+    
+@app.route("/reddit/getPrawConfigs", methods=["GET"])
+def getPrawConfigs():
+    prawConn = sqlite3.connect('users.db')
+    prawCursor = prawConn.cursor()
+    email = session["email"]
+    prawCursor.execute("SELECT CONFIG_NAME FROM PRAWS WHERE EMAIL = ?", [email])
+    praws = prawCursor.fetchall()
+    prawList = []
+
+    for praw in praws:
+        prawList.append(praw[0])
+    return {"data": {"praws": prawList}, "status": 200}
+
+app.run(debug=True, host='0.0.0.0')
