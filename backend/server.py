@@ -165,7 +165,7 @@ def createConfig():
 
 # Create config
 @app.route("/createPrawConfig", methods=["POST"])
-def createConfig():
+def createPrawConfig():
     request_data = request.get_json()
 
     email = session["email"]
@@ -191,7 +191,7 @@ def createConfig():
         except:
             configConn.close()
             return {"status": 400}, 400
-        configConn.commit() }
+        configConn.commit()
         configConn.close()
     return {"status": 200}, 200
 
