@@ -72,7 +72,6 @@ export default function Dashboard() {
           <Typography variant="h6" noWrap>
             Monke Scrapr
           </Typography>
-          <Button className={classes.appBarButtons}>Login</Button>
           <Button className={classes.appBarButtons}>Logout</Button>
         </Toolbar>
       </AppBar>
