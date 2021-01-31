@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Navbar from '../Navbar';
 
 const drawerWidth = 240;
-const color = "#808080";
+const color = "#FF5700";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -46,7 +46,7 @@ export default function CreateReddit() {
             <AppBar position="static" className={classes.appBar}>
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        Create Website Config
+                        Create PRAW Config
                         </Typography>
                 </Toolbar>
             </AppBar>
@@ -62,10 +62,10 @@ export default function CreateReddit() {
                             margin="normal"
                             required
                             fullWidth
-                            id="configName"
-                            label="Config Name"
-                            name="configName"
-                            autoComplete="configName"
+                            id="clientId"
+                            label="Client ID"
+                            name="clientId"
+                            autoComplete="clientId"
                             autoFocus
                         />
                         <TextField
@@ -73,10 +73,10 @@ export default function CreateReddit() {
                             margin="normal"
                             required
                             fullWidth
-                            id="dbName"
-                            label="Database Name"
-                            name="dbName"
-                            autoComplete="dbName"
+                            id="clientSecret"
+                            label="Client Secret"
+                            name="clientSecret"
+                            autoComplete="clientSecret"
                             autoFocus
                         />
                         <TextField
@@ -84,21 +84,10 @@ export default function CreateReddit() {
                             margin="normal"
                             required
                             fullWidth
-                            id="website"
-                            label="Website Link"
-                            name="website"
-                            autoComplete="website"
-                            autoFocus
-                        />
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="keywords"
-                            label="Keywords"
-                            name="keywords"
-                            autoComplete="keywords"
+                            id="userAgent"
+                            label="User Agent"
+                            name="userAgent"
+                            autoComplete="userAgent"
                             autoFocus
                         />
                         <Button
