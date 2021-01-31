@@ -50,14 +50,21 @@ export default function CreateReddit() {
     const [keywords, setKeywords] = useState("");
     const [trackedUsers, setTrackedUsers] = useState("");
 
-    const handleSubmit = () =>{
+    const handleSubmit = (e) =>{
+        e.preventDefault();
         console.log(configName,subreddit,numPosts,sorting,keywords,trackedUsers);
         console.log(configName,subreddit,numPosts,sorting,keywords.split(),trackedUsers.split());
         
         setKeywords(keywords.split(" "));
         setTrackedUsers(trackedUsers.split(" "));
 
-        axios.post("http://127.0.0.1:5000/reddit/createConfig",{"configName": configName,"subreddit": subreddit,"numPosts": numPosts, "sorting": sorting, "keywords": keywords,"trackedUsers": trackedUsers});
+        axios.post("http://localhost:5000/reddit/createConfig",{"configName": configName,"subreddit": subreddit,"numPosts": numPosts, "sorting": sorting, "keywords": keywords,"trackedUsers": trackedUsers})
+        .then((res) => {
+            console.log("works")
+        })
+        .catch((error) =>{
+            console.log(error);
+        })
     }
 
     const classes = useStyles();

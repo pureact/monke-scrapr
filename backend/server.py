@@ -9,9 +9,11 @@ from dynaport.dynaport import Dynaport
 from flask import Flask, request, session
 from dotenv import load_dotenv
 from util import generate_config
+from flask_cors import CORS
 
 scrapr = Dynaport().get_module(name="scrapr", path="../scrapr.py")
 app = Flask(__name__)
+CORS(app)
 load_dotenv()
 
 import os

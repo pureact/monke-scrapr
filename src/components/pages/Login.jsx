@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import {Redirect} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -37,25 +36,24 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const url = "http://127.0.0.1:5000";
+
 
 export default function SignIn() {
   const classes = useStyles();
 
-  let [username, setUsername] = useState("");
+  let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
 
-  const credentials = {
-    username: username,
-    password: password
-  }
 
-  const handleSubmit = () => {
-
-    const response = axios.post(url + '/login', credentials);
-    if (response.status === '200') {
-      return <Redirect to="/home"/>
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post("http://127.0.0.1:5000/login", {email: email, password: password})
+    .then((res) =>{
+      console.log(res);
+    })
+    .catch((error) =>{
+      console.log(error);
+    })
   }
 
   return (
@@ -74,12 +72,12 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            value={username}
-            onInput={ e=>setUsername(e.target.value)}
-            autoComplete="username"
+            id="email"
+            label="Email"
+            name="email"
+            value={email}
+            onInput={e=>setEmail(e.target.value)}
+            autoComplete="email"
             autoFocus
           />
           <TextField
@@ -89,7 +87,7 @@ export default function SignIn() {
             fullWidth
             name="password"
             value={password}
-            onInput={ e=>setPassword(e.target.value)}
+            onInput={e=>setPassword(e.target.value)}
             label="Password"
             type="password"
             id="password"

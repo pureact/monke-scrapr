@@ -8,7 +8,6 @@ import CreateWebsite from './components/pages/CreateWebsite';
 import CreatePRAW from './components/pages/CreatePRAW';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
-import axios from 'axios';
 
 function App() {
 
@@ -20,7 +19,7 @@ function App() {
           <Route path="/create/praw" exact component={CreatePRAW}/>
           <Route path="/create/twitter" exact component={CreateTwitter}/>
           <Route path="/create/website" exact component={CreateWebsite}/>
-          <Route path="/home" exact component={Dashboard}/>
+          <Route path="/dashboard" exact component={Dashboard}/>
           <Route path="/register" exact component={Register}/>
         
       </div>

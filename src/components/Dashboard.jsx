@@ -10,7 +10,6 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Copyright from './Copyright';
 import Navbar from './Navbar';
-import {Link} from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -82,8 +81,8 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={3}>
-                {configs.map(item =>{
-                    return <Grid item xs={3} md={3} lg={4}><Paper elevation={5} className={classes.paper}>Data</Paper></Grid>
+                {configs.map((item, index) =>{
+                    return <Grid item xs={3} md={3} lg={4} key={index}><Paper elevation={5} className={classes.paper} key={index+"a"}>Data</Paper></Grid>
                 })}
             </Grid>           
           <Copyright/>

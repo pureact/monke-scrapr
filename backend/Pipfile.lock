@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ecc71b95fe4bacb54d30303808f6511dece5e5b821b44ea77b77fac59198fd5c"
+            "sha256": "96f43b71b20dd371f957136dd08e3c3fd8ec173b98a170078df96670d7f8f7a6"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.8"
+            "python_version": "3.9"
         },
         "sources": [
             {
@@ -41,11 +41,11 @@
         },
         "dynaport": {
             "hashes": [
-                "sha256:4df9f55e650a1c242345b17a30830d865375e12efe3ec2b58dcd04171dfdd383",
-                "sha256:c2edb4bad85ccc476ce58ef7d424c0ffaf7ea79b7a05ce6fabdc6758c6a14e98"
+                "sha256:1edce9ac3a839b8ad0e8ab3178bd29ea757bf6580249e38aa2e2d5a4675e6393",
+                "sha256:7fca94d138a31b10069db503256ab37f57c251dd415355a3a67b448b2ce67354"
             ],
             "index": "pypi",
-            "version": "==0.0.9"
+            "version": "==0.0.16"
         },
         "flask": {
             "hashes": [
@@ -54,6 +54,14 @@
             ],
             "index": "pypi",
             "version": "==1.1.2"
+        },
+        "flask-cors": {
+            "hashes": [
+                "sha256:74efc975af1194fc7891ff5cd85b0f7478be4f7f59fe158102e91abb72bb4438",
+                "sha256:b60839393f3b84a0f3746f6cdca56c1ad7426aa738b70d6c61375857823181de"
+            ],
+            "index": "pypi",
+            "version": "==3.0.10"
         },
         "idna": {
             "hashes": [
