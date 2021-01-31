@@ -33,13 +33,10 @@ configsTable = """ CREATE TABLE IF NOT EXISTS CONFIGS(
     PRIMARY KEY(CONFIG_PATH)
 )"""
 prawConfigsTable = """ CREATE TABLE IF NOT EXISTS PRAWS(
-    CLIENT_ID TEXT NOT NULL,
-    CLIENT_SECRET TEXT NOT NULL,
-    USER_AGENT TEXT NOT NULL,
     EMAIL TEXT NOT NULL,
     CONFIG_NAME TEXT NOT NULL,
     CONFIG_PATH TEXT NOT NULL,
-    PRIMARY KEY(CONFIG_NAME, EMAIL)
+    PRIMARY KEY(CONFIG_PATH)
 )"""
 
 tableCursor = tableConn.cursor()
@@ -141,9 +138,29 @@ def runRedditScraper():
     if request_data:
         if "prawConfig" in request_data:
             prawConfig = request_data["prawConfig"]
+            conn = sqlite3.connect("users.db")
+            c = conn.cursor()
+            c.execute(
+                "SELECT CONFIG_PATH FROM PRAWS WHERE EMAIL = ? AND CONFIG_NAME = ?",
+                [session["email"], prawConfig],
+            )
+            praw_config_path = c.fetchone()[0]
+            conn.close()
+            if not praw_config_path:
+                return {"status": 400}, 400
         if "scraperConfig" in request_data:
             scraperConfig = request_data["scraperConfig"]
-        redditScrapr = scrapr.RedditScrapr(scraperConfig, prawConfig)
+            conn = sqlite3.connect("users.db")
+            c = conn.cursor()
+            c.execute(
+                "SELECT CONFIG_PATH FROM CONFIGS WHERE EMAIL = ? AND CONFIG_NAME = ?",
+                [session["email"], prawConfig],
+            )
+            config_path = c.fetchone()[0]
+            conn.close()
+            if not config_path:
+                return {"status": 400}, 400
+        redditScrapr = scrapr.RedditScrapr(config_path, praw_config_path)
         redditScrapr.scrape()
         return {"status": 200}, 200
     else:
@@ -227,12 +244,9 @@ def createPrawConfig():
         configCursor = configConn.cursor()
         try:
             configCursor.execute(
-                "INSERT INTO PRAWS (EMAIL, CLIENT_ID, USER_AGENT, CLIENT_SECRET, CONFIG_NAME, CONFIG_PATH) VALUES(?,?,?,?,?)",
+                "INSERT INTO PRAWS (EMAIL, CONFIG_NAME, CONFIG_PATH) VALUES(?,?,?)",
                 [
                     email,
-                    request_data.get("clientId"),
-                    request_data.get("userAgent"),
-                    request_data.get("clientSecret"),
                     config_name,
                     config_path,
                 ],
@@ -244,14 +258,15 @@ def createPrawConfig():
         configConn.close()
     return {"status": 200}, 200
 
+
 # Get reddit all links
-@app.route('/reddit/links', methods=['POST'])
+@app.route("/reddit/links", methods=["POST"])
 def redditLinks():
     request_data = request.get_json()
-    
+
     config_name = None
     config_path = None
-    email = session['email']
+    email = session["email"]
 
     if request_data:
         if "configName" in request_data:
@@ -260,22 +275,27 @@ def redditLinks():
     configCursor = configConn.cursor()
 
     try:
-        configCursor.execute("SELECT CONFIG_PATH FROM USERS WHERE email = ? AND CONFIG_NAME = ?", [email, config_name])
+        configCursor.execute(
+            "SELECT CONFIG_PATH FROM USERS WHERE email = ? AND CONFIG_NAME = ?",
+            [email, config_name],
+        )
         config_path = configCursor.fetchone()
     except:
         configConn.close()
         return {"status": 400}, 400
-    
+
     configConn.commit()
     configConn.close()
-        
-    return {"status": 200, "data": {"links": scrapr.RedditScrapr(config_path).get_all_links()}}, 200
 
-    
-    
+    return {
+        "status": 200,
+        "data": {"links": scrapr.RedditScrapr(config_path).get_all_links()},
+    }, 200
+
+
 @app.route("/reddit/getPrawConfigs", methods=["GET"])
 def getPrawConfigs():
-    prawConn = sqlite3.connect('users.db')
+    prawConn = sqlite3.connect("users.db")
     prawCursor = prawConn.cursor()
     email = session["email"]
     prawCursor.execute("SELECT CONFIG_NAME FROM PRAWS WHERE EMAIL = ?", [email])
@@ -286,4 +306,6 @@ def getPrawConfigs():
         prawList.append(praw[0])
     return {"data": {"praws": prawList}, "status": 200}
 
-app.run(debug=True, host='0.0.0.0')
+
+app.run(debug=True, host="0.0.0.0")
+
