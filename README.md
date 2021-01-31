@@ -1,4 +1,4 @@
-# monke-scrapr
+# Monke Scrapr
 
 Monke Scrapr is a hackathon project being developed for cuHacking 2021: Snowed In.
 
