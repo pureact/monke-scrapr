@@ -35,8 +35,10 @@ prawConfigsTable = ''' CREATE TABLE IF NOT EXISTS PRAWS(
     USER_AGENT TEXT NOT NULL,
     EMAIL TEXT NOT NULL,
     CONFIG_NAME TEXT NOT NULL,
+    CONFIG_PATH TEXT NOT NULL,
     PRIMARY KEY(CONFIG_NAME, EMAIL)
 )'''
+
 tableCursor = tableConn.cursor()
 tableCursor.execute(usersTable)
 tableCursor.execute(configsTable)
@@ -118,7 +120,22 @@ def logout():
 
 @app.route('/runRedditScraper', methods=['POST'])
 def runRedditScraper():
-    return 0
+    request_data = request.get_json()
+
+    #prawconfig, scraperconfig
+    prawConfig = None
+    scraperConfig = None
+
+    if request_data:
+        if 'prawConfig' in request_data:
+            prawConfig = request_data['prawConfig']
+        if 'scraperConfig' in request_data:
+            scraperConfig = request_data['scraperConfig']
+        redditScrapr = scrapr.RedditScrapr(scraperConfig, prawConfig)
+        redditScrapr.scrape()
+        return {"status": 200}, 200
+    else:
+        return {"status": 400}, 400
 
 #Create config
 @app.route('/createConfig', methods=['POST'])
