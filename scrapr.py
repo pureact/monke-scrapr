@@ -27,12 +27,14 @@ class Scrapr:
 
 
 class RedditScrapr(Scrapr):
-    def __init__(self, config, praw_config):
+    def __init__(self, config, praw_config=False):
         super().__init__(config)
         self.init_praw(praw_config)
         self.init_db()
 
     def init_praw(self, praw_config):
+        if not praw_config:
+            self.praw = praw_config
         with open(praw_config, "r") as f:
             self.praw = praw.Reddit(**json.load(f))
 
