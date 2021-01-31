@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import {Redirect} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from '../Copyright';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -24,19 +26,38 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
   donthaveanaccount: {
-      alignItems: 'center',
+    alignItems: 'center',
   }
 }));
 
+const url = "localhost:3000";
+
 export default function SignIn() {
   const classes = useStyles();
+
+  let [username, setUsername] = useState("");
+  let [password, setPassword] = useState("");
+
+  const credentials = {
+    username: username,
+    password: password
+  }
+
+  const handleSubmit = () => {
+    axios.post(url + '/login', credentials);
+
+    const response = axios.get(url + '/login');
+    if (response.status === '200') {
+      return <Redirect to="/home"/>
+    }
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -57,6 +78,8 @@ export default function SignIn() {
             id="username"
             label="Username"
             name="username"
+            value={username}
+            onInput={ e=>setUsername(e.target.value)}
             autoComplete="username"
             autoFocus
           />
@@ -66,31 +89,33 @@ export default function SignIn() {
             required
             fullWidth
             name="password"
+            value={password}
+            onInput={ e=>setPassword(e.target.value)}
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
+            autoComplete="password"
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
           <Button
+            onClick={handleSubmit}
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            href="/dashboard"
           >
             Sign In
           </Button>
           <Link href="/register" variant="body2" className={classes.donthaveanaccount}>
-                {"Don't have an account? Sign Up"}
+            {"Don't have an account? Sign Up"}
           </Link>
         </form>
       </div>
-    <Copyright />
+      <Copyright />
     </Container>
   );
 }

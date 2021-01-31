@@ -63,7 +63,6 @@ export default function Dashboard() {
       setConfigs(oldArray => [getConfigs()]);
   };
   
-
   return (
     <div className={classes.root}>
       <CssBaseline />
