@@ -67,7 +67,7 @@ export default function CreateReddit() {
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <Typography variant="h6" noWrap>
-                        Create Reddit Config
+                        Create Reddit Config yep
                     </Typography>
                 </Toolbar>
             </AppBar>
