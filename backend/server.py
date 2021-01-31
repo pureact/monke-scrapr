@@ -93,6 +93,7 @@ def register():
 @app.route("/login", methods=["POST"])
 def login():
     request_data = request.get_json()
+    print(request_data)
     status = 401
     email = None
     password = None
@@ -115,6 +116,7 @@ def login():
         session["loggedIn"] = True
 
     loginConn.close()
+    print(session)
     return {"status": status}, status
 
 
@@ -174,6 +176,7 @@ def runRedditScraper():
 def createConfig():
     request_data = request.get_json()
     print(request_data)
+    print(session)
 
     email = session["email"]
 

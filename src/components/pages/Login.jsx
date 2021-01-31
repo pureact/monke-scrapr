@@ -50,6 +50,7 @@ export default function SignIn() {
     axios.post("http://127.0.0.1:5000/login", {email: email, password: password})
     .then((res) =>{
       console.log(res);
+      window.location = "/dashboard";
     })
     .catch((error) =>{
       console.log(error);
