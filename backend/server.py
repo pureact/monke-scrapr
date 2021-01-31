@@ -118,7 +118,7 @@ def logout():
     else:
         return {"status": 400, "Error": "User not logged in."}, 400
 
-@app.route('/runRedditScraper', methods=['POST'])
+@app.route('/reddit/runScraper', methods=['POST'])
 def runRedditScraper():
     request_data = request.get_json()
 
@@ -138,7 +138,7 @@ def runRedditScraper():
         return {"status": 400}, 400
 
 #Create config
-@app.route('/createConfig', methods=['POST'])
+@app.route('/reddit/createConfig', methods=['POST'])
 def createConfig():
     request_data = request.get_json()
 
@@ -164,7 +164,7 @@ def createConfig():
     return {"status": 200}, 200
 
 # Create config
-@app.route("/createPrawConfig", methods=["POST"])
+@app.route("/reddit/createPrawConfig", methods=["POST"])
 def createPrawConfig():
     request_data = request.get_json()
 
