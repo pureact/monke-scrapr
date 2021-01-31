@@ -14,12 +14,21 @@ const drawerWidth = 240;
 const color = "#808080";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+    },
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
+    content: {
+        flexGrow: 1,
+        height: '100vh',
+        overflow: 'auto',
+    },
+    appBarSpacer: theme.mixins.toolbar,
     appBar: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
@@ -37,25 +46,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CreateReddit() {
-
+export default function CreateWebsite() {
     const classes = useStyles();
     return (
-        <div>
-            <Navbar />
-            <AppBar position="static" className={classes.appBar}>
+        <div className={classes.root}>
+            <CssBaseline />
+
+            <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
-                    <Typography variant="h6" className={classes.title}>
+                    <Typography variant="h6" noWrap>
                         Create Website Config
-                        </Typography>
+                    </Typography>
                 </Toolbar>
             </AppBar>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={classes.paper}>
-                    <AppBar position="static">
-                    </AppBar>
-
+            <Navbar />
+            <main className={classes.content}>
+                <div className={classes.appBarSpacer} />
+                <Container maxWidth="xs" className={classes.container}>
                     <form className="classes.form" noValidate>
                         <TextField
                             variant="outlined"
@@ -111,9 +118,9 @@ export default function CreateReddit() {
                             Create config
                     </Button>
                     </form>
-                </div>
-                <Copyright />
-            </Container>
+                    <Copyright />
+                </Container>
+            </main>
         </div>
     )
 }

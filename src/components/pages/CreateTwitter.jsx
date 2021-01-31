@@ -14,12 +14,21 @@ const drawerWidth = 240;
 const color = "#55ACEE";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+    },
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
+    content: {
+        flexGrow: 1,
+        height: '100vh',
+        overflow: 'auto',
+    },
+    appBarSpacer: theme.mixins.toolbar,
     appBar: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
@@ -38,25 +47,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateTwitter() {
-
     const classes = useStyles();
     return (
-        <div>
-            <Navbar />
-            <AppBar position="static" className={classes.appBar}>
+        <div className={classes.root}>
+            <CssBaseline />
+
+            <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
-                    <Typography variant="h6" className={classes.title}>
+                    <Typography variant="h6" noWrap>
                         Create Twitter Config
-                        </Typography>
+                    </Typography>
                 </Toolbar>
             </AppBar>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={classes.paper}>
-                    <AppBar position="static">
-                    </AppBar>
-
-                    <form className="classes.form" noValidate>
+            <Navbar />
+            <main className={classes.content}>
+                <div className={classes.appBarSpacer} />
+                <Container maxWidth="xs" className={classes.container}>
+                    <form className={classes.form} noValidate>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -122,9 +129,9 @@ export default function CreateTwitter() {
                             Create config
                     </Button>
                     </form>
-                </div>
-                <Copyright />
-            </Container>
+                    <Copyright />
+                </Container>
+            </main>
         </div>
     )
 }
