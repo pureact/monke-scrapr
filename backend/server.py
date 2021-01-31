@@ -9,7 +9,6 @@ from flask import Flask, request, session
 from dotenv import load_dotenv
 from util import generate_config
 scrapr = Dynaport().get_module(name="scrapr", path="../scrapr.py")
-scrapr.RedditScrapr()
 app = Flask(__name__)
 load_dotenv()
 
@@ -117,7 +116,7 @@ def logout():
     else:
         return {"status": 400, "Error": "User not logged in."}, 400
 
-@app.route('runRedditScraper', methods=['POST'])
+@app.route('/runRedditScraper', methods=['POST'])
 def runRedditScraper():
     return 0
 
@@ -149,7 +148,7 @@ def createConfig():
 
 # Create config
 @app.route("/createPrawConfig", methods=["POST"])
-def createConfig():
+def createPrawConfig():
     request_data = request.get_json()
 
     email = session["email"]
@@ -175,7 +174,7 @@ def createConfig():
         except:
             configConn.close()
             return {"status": 400}, 400
-        configConn.commit() }
+        configConn.commit()
         configConn.close()
     return {"status": 200}, 200
 
