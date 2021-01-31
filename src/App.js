@@ -6,8 +6,8 @@ import CreateReddit from './components/pages/CreateReddit';
 import CreateTwitter from './components/pages/CreateTwitter';
 import CreateWebsite from './components/pages/CreateWebsite';
 import CreatePRAW from './components/pages/CreatePRAW';
-// import Login from './components/pages/Login';
-// import Register from './components/pages/Register';
+import Login from './components/pages/Login';
+import Register from './components/pages/Register';
 
 function App() {
 
@@ -20,8 +20,8 @@ function App() {
           <Route path="/create/praw" exact component={CreatePRAW}/>
           <Route path="/create/twitter" exact component={CreateTwitter}/>
           <Route path="/create/website" exact component={CreateWebsite}/>
-          {/* <Route path="/" exact component={Login}/>
-          <Route path="/register" exact component={Register}/>  */}
+          <Route path="/login" exact component={Login}/>
+          {/* <Route path="/register" exact component={Register}/> */}
         
       </div>
     </Router>
