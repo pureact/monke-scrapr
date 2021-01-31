@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Copyright from '../Copyright';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Navbar from '../Navbar';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
+import axios from 'axios';
 
 const drawerWidth = 240;
 const color = "#FF5700";
@@ -49,15 +51,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateReddit() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+    const [configName, setConfigName] = useState("");
+    const [subreddit, setSubreddit] = useState("");
+    const [numPosts, setNumPosts] = useState(0);
+    const [sorting, setSorting] = useState("");
+    const [keywords, setKeywords] = useState([]);
+    const [trackedUsers, setTrackedUsers] = useState([]);
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const handleSubmit = () =>{
+        console.log(configName,subreddit,numPosts,sorting,keywords,trackedUsers);
+        console.log("test");
+        console.log(configName,subreddit,numPosts,sorting,keywords.split(),trackedUsers.split());
+        
+        setKeywords(keywords.split(" "));
+        setTrackedUsers(trackedUsers.split(" "));
+
+        axios.post("localhost:5000/create/createConfig",configName,subreddit,numPosts,sorting,keywords,trackedUsers);
+    }
 
     const classes = useStyles();
     return (
@@ -77,6 +88,8 @@ export default function CreateReddit() {
                 <Container maxWidth="xs" className={classes.container}>
                 <form className={classes.form} noValidate>
                         <TextField
+                            value={configName}
+                            onInput={ e=>setConfigName(e.target.value)}
                             variant="outlined"
                             margin="normal"
                             required
@@ -88,17 +101,8 @@ export default function CreateReddit() {
                             autoFocus
                         />
                         <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="dbName"
-                            label="Database Name"
-                            name="dbName"
-                            autoComplete="dbName"
-                            autoFocus
-                        />
-                        <TextField
+                            value={subreddit}
+                            onInput={ e=>setSubreddit(e.target.value)}
                             variant="outlined"
                             margin="normal"
                             required
@@ -110,6 +114,8 @@ export default function CreateReddit() {
                             autoFocus
                         />
                         <TextField
+                            value={numPosts}
+                            onInput={ e=>setNumPosts(e.target.value)}
                             variant="outlined"
                             margin="normal"
                             required
@@ -121,6 +127,8 @@ export default function CreateReddit() {
                             autoFocus
                         />
                         <TextField
+                            value={trackedUsers}
+                            onInput={ e=>setTrackedUsers(e.target.value)}
                             variant="outlined"
                             margin="normal"
                             fullWidth
@@ -131,6 +139,8 @@ export default function CreateReddit() {
                             autoFocus
                         />
                         <TextField
+                            value={keywords}
+                            onInput={ e=>setKeywords(e.target.value)}
                             variant="outlined"
                             margin="normal"
                             required
@@ -141,21 +151,17 @@ export default function CreateReddit() {
                             autoComplete="keywords"
                             autoFocus
                         />
-                        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>Choose a filter</Button>
-                        <Menu
-                            id="filterMenu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onclick={handleClose} id="hot">hot</MenuItem>
-                            <MenuItem onclick={handleClose} id="new">new</MenuItem>
-                            <MenuItem onclick={handleClose} id="rising">rising</MenuItem>
-                            <MenuItem onclick={handleClose} id="controversial">controversial</MenuItem>
-                            <MenuItem onclick={handleClose} id="top">top</MenuItem>
-                        </Menu>
+
+                        <RadioGroup aria-label="gender" name="gender1" value={sorting} onChange={ e=>setSorting(e.target.value)}>
+                            <FormControlLabel value="Hot" control={<Radio />} label="Hot" />
+                            <FormControlLabel value="New" control={<Radio />} label="New" />
+                            <FormControlLabel value="Rising" control={<Radio />} label="Rising" />
+                            <FormControlLabel value="Controversial" control={<Radio />} label="Controversial" />
+                            <FormControlLabel value="Top" control={<Radio />} label="Top"></FormControlLabel>
+                        </RadioGroup>
+
                         <Button
+                            onClick={handleSubmit}
                             type="submit"
                             fullWidth
                             variant="contained"
@@ -165,9 +171,9 @@ export default function CreateReddit() {
                             Create config
                     </Button>
                     </form>
-                    <Copyright/>
-                </Container>
-            </main>
+                </div>
+                <Copyright />
+            </Container>
         </div>
     )
 }
