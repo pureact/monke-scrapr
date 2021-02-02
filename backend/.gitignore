@@ -1,0 +1,4 @@
+# dotenv environment variable files
+.env
+*.db
+configs
