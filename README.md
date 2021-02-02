@@ -5,10 +5,10 @@ Monke Scrapr is a hackathon project being developed for cuHacking 2021: Snowed I
 We are Team Monke 🦍:
 
 - Nicolas El-Khoury // [naek.ca](https://naek.ca)
-- Matthew O'Neill // [matthewoneill.ca](https://matthewoneill.ca)
-- Hayden John William Mirza // [hjwm.ca](https://hjwm.ca)
-- Adrian Alexander // [adrian-alexander.ca](https://adrian-alexander.ca/)
-- Kyle Poirier-Szekely // [github.com/kylepoirierszekely](https://github.com/kylepoirier)
+- Matthew O'Neill (He/Him) // [matthewoneill.ca](https://matthewoneill.ca)
+- Hayden John William Mirza (He/Him) // [hjwm.ca](https://hjwm.ca)
+- Adrian Alexander (He/Him) // [adrian-alexander.ca](https://adrian-alexander.ca/)
+- Kyle Poirier-Szekely (He/Him) // [github.com/kylepoirierszekely](https://github.com/kylepoirier)
 
 ## Reddit Scrapr Config File
 
